@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codex Goal & Claude Goal Guide</title>
+  <meta name="description" content="Codex Goal mode and Claude Code /goal guide with usage examples, comparison, and source links.">
+  <style>
+    :root {
+      --bg: #f6f1e8;
+      --ink: #171717;
+      --muted: #5f625f;
+      --line: #d8d0c2;
+      --panel: #fffaf1;
+      --accent: #0f766e;
+      --accent-dark: #0a524d;
+      --code: #20211f;
+      --code-bg: #ece4d7;
+      --soft: #e6d8c4;
+      --mark: #c2410c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.62;
+    }
+
+    a {
+      color: var(--accent-dark);
+      text-underline-offset: 0.18em;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid rgba(23, 23, 23, 0.12);
+      background: rgba(246, 241, 232, 0.88);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      width: min(1160px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 14px 0;
+    }
+
+    .brand {
+      color: var(--ink);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .hero {
+      min-height: calc(100svh - 58px);
+      display: grid;
+      align-items: end;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(115deg, rgba(246, 241, 232, 0.96) 0%, rgba(246, 241, 232, 0.76) 52%, rgba(15, 118, 110, 0.16) 100%),
+        repeating-linear-gradient(90deg, rgba(23, 23, 23, 0.05) 0 1px, transparent 1px 84px),
+        repeating-linear-gradient(0deg, rgba(23, 23, 23, 0.04) 0 1px, transparent 1px 84px);
+    }
+
+    .hero-inner {
+      width: min(1160px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 72px 0 56px;
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 980px;
+      margin: 0;
+      font-size: clamp(44px, 8vw, 112px);
+      line-height: 0.94;
+      letter-spacing: 0;
+    }
+
+    .hero-copy {
+      max-width: 760px;
+      margin: 28px 0 0;
+      color: #383a37;
+      font-size: clamp(18px, 2.1vw, 24px);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      padding: 10px 18px;
+      color: var(--ink);
+      background: transparent;
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform 160ms ease, background 160ms ease, color 160ms ease;
+    }
+
+    .button.primary {
+      border-color: var(--accent);
+      color: #fff;
+      background: var(--accent);
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      background: var(--ink);
+      color: #fff;
+    }
+
+    main {
+      width: min(1160px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    section {
+      padding: 76px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-kicker {
+      margin: 0 0 10px;
+      color: var(--mark);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      max-width: 800px;
+      margin: 0 0 20px;
+      font-size: clamp(30px, 4.4vw, 56px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 34px 0 10px;
+      font-size: 22px;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    p {
+      max-width: 820px;
+      margin: 0 0 16px;
+      color: #343633;
+    }
+
+    .lead {
+      max-width: 900px;
+      color: #2b2d2a;
+      font-size: 20px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 48px;
+      align-items: start;
+    }
+
+    .rule-list {
+      display: grid;
+      gap: 12px;
+      margin: 24px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .rule-list li {
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .label {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    code {
+      border-radius: 5px;
+      padding: 0.08em 0.34em;
+      color: var(--code);
+      background: var(--code-bg);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+
+    pre {
+      overflow-x: auto;
+      margin: 18px 0 26px;
+      border-left: 4px solid var(--accent);
+      padding: 18px 20px;
+      color: var(--code);
+      background: var(--code-bg);
+    }
+
+    pre code {
+      padding: 0;
+      background: transparent;
+      white-space: pre;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 28px;
+      border-collapse: collapse;
+      font-size: 15px;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--line);
+      padding: 16px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .callout {
+      margin-top: 28px;
+      border-left: 4px solid var(--mark);
+      padding: 18px 22px;
+      background: var(--soft);
+    }
+
+    .examples {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .example {
+      min-height: 190px;
+      border-top: 3px solid var(--accent);
+      padding: 16px 0 0;
+    }
+
+    .example strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+    }
+
+    .sources {
+      display: grid;
+      gap: 10px;
+      margin: 20px 0 0;
+      padding-left: 20px;
+    }
+
+    .footer {
+      width: min(1160px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 34px 0 54px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .reveal {
+      animation: rise 520ms ease both;
+    }
+
+    .reveal:nth-child(2) {
+      animation-delay: 90ms;
+    }
+
+    .reveal:nth-child(3) {
+      animation-delay: 180ms;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 820px) {
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-inner {
+        padding: 60px 0 42px;
+      }
+
+      .two-col,
+      .examples {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 54px 0;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="#top">Goal Guide</a>
+      <div class="nav-links">
+        <a href="#codex">Codex</a>
+        <a href="#claude">Claude</a>
+        <a href="#compare">비교</a>
+        <a href="#examples">예시</a>
+        <a href="#sources">출처</a>
+      </div>
+    </nav>
+  </header>
+
+  <div id="top" class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow reveal">Codex Goal & Claude Code /goal</p>
+      <h1 class="reveal">긴 작업을 끝까지 추적하는 Goal 기능 가이드</h1>
+      <p class="hero-copy reveal">Codex와 Claude Code의 goal 기능을 사용자 관점에서 설명하고, 실제로 어떤 목표 문장을 써야 하는지 예시와 함께 정리했습니다.</p>
+      <div class="hero-actions reveal">
+        <a class="button primary" href="#codex">Codex부터 보기</a>
+        <a class="button" href="#compare">차이점 비교</a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <section id="summary">
+      <p class="section-kicker">Short version</p>
+      <h2>Goal은 “다음에 무엇을 할지”와 “언제 끝났는지”를 계속 붙잡는 장치입니다.</h2>
+      <p class="lead">일반 프롬프트는 한 번의 요청에 가깝지만, goal은 긴 작업의 완료 조건을 세션에 붙여 둡니다. 그래서 에이전트가 여러 단계의 조사, 수정, 검증을 반복하면서도 원래 성공 조건을 잊지 않도록 돕습니다.</p>
+      <ul class="rule-list">
+        <li><span class="label">잘 맞는 작업</span>마이그레이션, 테스트 통과까지의 버그 수정, 문서 사이트 완성, 이슈 백로그 처리처럼 완료 조건을 검증할 수 있는 일.</li>
+        <li><span class="label">덜 맞는 작업</span>단순 질문, 한 줄 명령, 아직 성공 기준이 불명확한 아이디어 탐색. 이 경우 먼저 계획을 세운 뒤 goal로 바꾸는 편이 낫습니다.</li>
+      </ul>
+    </section>
+
+    <section id="codex">
+      <p class="section-kicker">Codex</p>
+      <h2>Codex Goal mode 사용법</h2>
+      <p>OpenAI Codex 문서에 따르면 Goal mode는 긴 작업 동안 Codex가 계속 추적할 “지속적인 목표”를 설정하는 기능입니다. goal 텍스트는 시작 프롬프트이자 완료 기준으로 쓰이며, Codex app, IDE extension, CLI에서 <code>/goal</code>로 시작할 수 있습니다.</p>
+
+      <div class="two-col">
+        <div>
+          <h3>CLI에서 설정하기</h3>
+          <pre><code>/goal Finish the migration and keep tests green</code></pre>
+          <p>현재 goal을 보려면 인자 없이 <code>/goal</code>을 입력합니다. 일시정지, 재개, 삭제는 각각 <code>/goal pause</code>, <code>/goal resume</code>, <code>/goal clear</code>를 사용합니다.</p>
+        </div>
+        <div>
+          <h3>활성화가 안 보일 때</h3>
+          <pre><code>[features]
+goals = true</code></pre>
+          <p><code>/goal</code>이 slash command 목록에 없으면 <code>config.toml</code>에서 <code>features.goals</code>를 켜거나 CLI에서 <code>codex features enable goals</code>를 실행합니다.</p>
+        </div>
+      </div>
+
+      <h3>이 세션의 Codex API 도구 기준</h3>
+      <p>현재 API 세션에는 goal을 직접 다루는 도구도 노출됩니다. 사용자에게 일반적으로 보여 줄 문서에서는 slash command 중심으로 설명하면 되고, 자동화나 내부 세션 추적을 설명할 때는 아래처럼 구분하면 됩니다.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>도구</th>
+            <th>역할</th>
+            <th>주의점</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>create_goal</code></td>
+            <td>사용자가 명시적으로 요청한 목표를 새로 등록합니다.</td>
+            <td>에이전트가 임의로 만들면 안 됩니다.</td>
+          </tr>
+          <tr>
+            <td><code>get_goal</code></td>
+            <td>현재 목표, 상태, 시간 및 토큰 사용량을 확인합니다.</td>
+            <td>진행 상황 점검용입니다.</td>
+          </tr>
+          <tr>
+            <td><code>update_goal</code></td>
+            <td>목표가 실제로 완료되었거나 엄격히 막혔을 때 상태를 바꿉니다.</td>
+            <td><code>complete</code>는 검증 후에만, <code>blocked</code>는 같은 차단 조건이 반복될 때만 사용합니다.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <strong>작성 팁:</strong> “리팩터링해줘”보다 “결제 모듈을 TypeScript strict 모드로 마이그레이션하고 <code>npm test</code>와 <code>npm run lint</code>가 모두 0으로 끝나게 해줘”처럼 검증 방법을 같이 적는 편이 좋습니다.
+      </div>
+    </section>
+
+    <section id="claude">
+      <p class="section-kicker">Claude Code</p>
+      <h2>Claude Code의 /goal</h2>
+      <p>Claude Code 공식 문서의 <code>/goal</code>은 “완료 조건”을 설정하면 Claude가 여러 턴에 걸쳐 조건이 충족될 때까지 계속 작업하는 기능입니다. 문서 기준으로 Claude Code v2.1.139 이상이 필요합니다.</p>
+
+      <div class="two-col">
+        <div>
+          <h3>기본 사용</h3>
+          <pre><code>/goal all tests in test/auth pass and the lint step is clean</code></pre>
+          <p>이미 goal이 있으면 새 조건이 기존 goal을 대체합니다. 인자 없이 <code>/goal</code>을 실행하면 현재 상태, 실행 시간, 평가된 턴 수, 토큰 사용량, 평가자의 최근 이유를 확인할 수 있습니다.</p>
+        </div>
+        <div>
+          <h3>비대화형 실행</h3>
+          <pre><code>claude -p "/goal CHANGELOG.md has an entry for every PR merged this week"</code></pre>
+          <p>Claude Code 문서는 <code>-p</code>와 함께 goal을 설정하면 한 번의 호출 안에서 완료까지 루프를 실행할 수 있다고 설명합니다. 중단은 <code>Ctrl+C</code>로 합니다.</p>
+        </div>
+      </div>
+
+      <h3>Claude의 평가 방식</h3>
+      <p>Claude Code는 각 턴이 끝난 뒤 별도의 빠른 소형 모델이 조건 충족 여부를 예/아니오로 평가합니다. 이 평가자는 도구를 직접 실행하지 않으므로, 테스트 결과나 파일 변경 요약처럼 Claude가 대화에 드러낸 증거를 기준으로 판단합니다.</p>
+
+      <h3>요구 조건</h3>
+      <p>공식 문서에 따르면 <code>/goal</code>은 신뢰된 workspace에서만 동작하며, hooks 시스템을 사용합니다. hooks가 관리 정책으로 비활성화된 경우에는 사용할 수 없습니다.</p>
+    </section>
+
+    <section id="compare">
+      <p class="section-kicker">Comparison</p>
+      <h2>Codex와 Claude goal 비교</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th>Codex Goal mode</th>
+            <th>Claude Code /goal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>핵심 개념</td>
+            <td>긴 작업 동안 붙잡을 지속적인 objective와 완료 기준</td>
+            <td>완료 조건을 만족할 때까지 턴을 이어 가는 세션 goal</td>
+          </tr>
+          <tr>
+            <td>시작 명령</td>
+            <td><code>/goal &lt;objective&gt;</code></td>
+            <td><code>/goal &lt;condition&gt;</code></td>
+          </tr>
+          <tr>
+            <td>상태 확인</td>
+            <td><code>/goal</code>, app의 progress row, 또는 세션 goal API</td>
+            <td><code>/goal</code></td>
+          </tr>
+          <tr>
+            <td>중단과 정리</td>
+            <td><code>/goal pause</code>, <code>/goal resume</code>, <code>/goal clear</code></td>
+            <td><code>/goal clear</code>, <code>stop</code>, <code>cancel</code> 등 clear alias</td>
+          </tr>
+          <tr>
+            <td>좋은 조건</td>
+            <td>결과, 측정 가능한 목표, 테스트 기준 포함</td>
+            <td>평가자가 대화 기록에서 확인할 수 있는 측정 가능한 조건</td>
+          </tr>
+          <tr>
+            <td>길이 제한</td>
+            <td>CLI 문서 기준 objective는 1자 이상 4,000자 이하</td>
+            <td>공식 문서 기준 condition은 최대 4,000자</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="examples">
+      <p class="section-kicker">Examples</p>
+      <h2>바로 쓸 수 있는 goal 문장</h2>
+      <div class="examples">
+        <article class="example">
+          <strong>문서 사이트 배포</strong>
+          <p><code>/goal Codex와 Claude의 goal 기능을 설명하는 정적 문서 사이트를 만들고, GitHub Pages에서 접근 가능한 URL까지 확인해줘.</code></p>
+        </article>
+        <article class="example">
+          <strong>테스트 기반 버그 수정</strong>
+          <p><code>/goal 로그인 리다이렉트 버그를 수정하고 npm test와 npm run lint가 모두 성공하게 해줘. 인증 흐름 외 파일은 바꾸지 마.</code></p>
+        </article>
+        <article class="example">
+          <strong>마이그레이션</strong>
+          <p><code>/goal 결제 모듈을 새 API로 마이그레이션하고 모든 call site가 컴파일되며 기존 결제 테스트가 통과하게 해줘.</code></p>
+        </article>
+      </div>
+
+      <h3>좋은 goal 체크리스트</h3>
+      <ul class="rule-list">
+        <li><span class="label">완료 상태</span>무엇이 끝나야 하는지 한 문장으로 적습니다.</li>
+        <li><span class="label">검증 방법</span>테스트, 빌드, 파일 수, 배포 URL, 이슈 개수처럼 확인 가능한 증거를 붙입니다.</li>
+        <li><span class="label">제약 조건</span>건드리면 안 되는 파일, 유지해야 하는 API, 시간 또는 턴 제한이 있으면 함께 적습니다.</li>
+      </ul>
+    </section>
+
+    <section id="sources">
+      <p class="section-kicker">Sources</p>
+      <h2>확인한 공식 자료</h2>
+      <p>이 문서는 2026년 6월 3일 기준으로 아래 공식 문서와 현재 Codex 세션에 노출된 goal 도구 설명을 바탕으로 작성했습니다.</p>
+      <ol class="sources">
+        <li><a href="https://developers.openai.com/codex/prompting#goal-mode">OpenAI Developers: Codex Prompting - Goal mode</a></li>
+        <li><a href="https://developers.openai.com/codex/app/commands#set-or-manage-a-goal-with-goal">OpenAI Developers: Codex app commands - /goal</a></li>
+        <li><a href="https://developers.openai.com/codex/cli/slash-commands#set-or-view-a-task-goal-with-goal">OpenAI Developers: Codex CLI slash commands - /goal</a></li>
+        <li><a href="https://code.claude.com/docs/en/goal">Claude Code Docs: Keep Claude working toward a goal</a></li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Goal_Test documentation site. Built as a static page for GitHub Pages.</span>
+  </footer>
+</body>
+</html>
